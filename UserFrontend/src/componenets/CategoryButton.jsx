@@ -4,8 +4,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 const CategoryButton = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  console.log({ pathname });
 
+  const getPathName = (pathname) => {
+    if(pathname === '/product'){
+      return "/jewellery"
+    }
+    return pathname;
+  }
  const categories = [
   { id: 0, label: "Jewellery", route: "/jewellery" },
   { id: 1, label: "Clay-crafts", route: "/claycraft" },
@@ -24,7 +29,7 @@ const CategoryButton = () => {
           key={index}
           onClick={() => handleItemClick(item.route)}
           className={
-            pathname === item.route
+            getPathName(pathname) === item.route
               ? "px-10 py-2 bg-orange-200 border-2 border-orange-300 rounded-full font-bold "
               : "px-10 py-2 bg-orange-400 text-white rounded-full border border-orange-300 font-bold hover:bg-orange-500 transition-colors"
           }

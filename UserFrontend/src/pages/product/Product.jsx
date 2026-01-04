@@ -27,7 +27,7 @@ function Product() {
     "/woolen": "Woolen",
   };
 
-  const selectedCategory = pathToCategory[pathname];
+  const selectedCategory = pathToCategory[pathname] ?? "Jewellery";
   const visibleProducts = selectedCategory
     ? productList?.filter((p) => p.category === selectedCategory)
     : productList;
