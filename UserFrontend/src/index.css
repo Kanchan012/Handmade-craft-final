@@ -1,0 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&family=Stack+Sans+Notch:wght@200..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Rubik+Gemstones&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-Pacifico: "Pacifico", "cursive";
+  --font-RubikGemstones: "Rubik Gemstones", system-ui;
+  --font-Montserrat: "Montserrat", "sans-serif";
+}
