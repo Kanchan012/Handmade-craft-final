@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useCart } from "../hooks/useCart";
 import { AuthContext } from "../context/AuthProvider";
 import { apiClient } from "../../../Frontend/src/api/apiClient";
@@ -10,6 +10,11 @@ import Logo from "../assets/Logo.png";
 function Header() {
   const { isLoading, user, setUser, setIsError, setIsLoading } =
     useContext(AuthContext);
+    const [showDropDown, setShowDropDown] = useState(false);
+
+    const handleToggleDropdown = () => {
+      setShowDropDown((prev) => !prev);
+    }
 
   const logout = async () => {
     try {
@@ -95,8 +100,9 @@ function Header() {
         </div>
 
         {/* User Profile */}
-        <div className="relative group">
-          {!isLoading && user?.user ? (
+        <div className="relative group cursor-pointer">
+          <div onClick={handleToggleDropdown}> 
+            {!isLoading && user?.user ? (
             <img
               className="w-10 h-10 rounded-full "
               src={`http://localhost:9000/image/${user.user?.image}`}
@@ -109,9 +115,13 @@ function Header() {
               alt="user"
             />
           )}
+          </div>
 
           {/* Dropdown */}
-          <div className="hidden group-hover:inline absolute right-0 mt-2 z-50 w-40 bg-gray-600 text-white rounded shadow-lg p-2">
+          
+          {
+            showDropDown && <>
+            <div className=" absolute right-0 mt-2 z-50 w-40 bg-gray-600 text-white rounded shadow-lg p-2">
             <div className="flex flex-col space-y-2">
               {user?.user ? (
                 <>
@@ -151,7 +161,8 @@ function Header() {
                 </>
               )}
             </div>
-          </div>
+          </div></>
+          }
         </div>
       </div>
     </div>
