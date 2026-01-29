@@ -6,5 +6,4 @@ const connectDb=async()=>{
     console.log("Data base is connected")
 }
 
-
 export default connectDb;

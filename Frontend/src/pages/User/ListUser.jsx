@@ -59,7 +59,7 @@ function ListUser() {
                   <td className="py-2 px-4 border-b">
                     {user.image ? (
                       <img
-                                  src={`http://localhost:9000/image/${user?.image}`}
+                        src={`http://localhost:9000/image/${user?.image}`}
 
                         alt={user.name}
                         className="w-12 h-12 rounded-full"

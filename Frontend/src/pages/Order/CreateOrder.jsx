@@ -140,13 +140,20 @@ function CreateOrder() {
         </select>
 
         {/* Shipping Address */}
-        <textarea
-          value={shippingAddress}
-          onChange={(e) => setShippingAddress(e.target.value)}
-          className="border border-gray-300 p-2 rounded w-full"
-          placeholder="Shipping Address"
-          required
-        />
+        <div>
+          <label className="block text-gray-700 font-semibold mb-2">
+            Shipping Address <span className="text-red-500">*</span>
+          </label>
+          <textarea
+            value={shippingAddress}
+            onChange={(e) => setShippingAddress(e.target.value)}
+            className="border border-gray-300 p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter detailed shipping address (e.g., Kathmandu, District, Street, House No.)"
+            required
+            rows="3"
+          />
+          <p className="text-gray-500 text-sm mt-1">Please provide your complete address</p>
+        </div>
 
         {/* Payment Details */}
         <div className="grid grid-cols-2 gap-4">

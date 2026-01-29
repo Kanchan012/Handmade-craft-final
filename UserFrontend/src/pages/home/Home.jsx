@@ -51,7 +51,6 @@ function Home() {
         </button>
       </div>
 
-      {/* ================= MOST SALES ================= */}
       <div className='mt-10 mb-10'>
         <h1 className='font-bold text-center text-2xl italic'>
           Most Sales Products

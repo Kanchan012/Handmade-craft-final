@@ -2,6 +2,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 // import { useCart } from "../../hooks/useCart";
 import fetchData from "../../api/apiClient";
 import { useState } from "react";
+import CryptoJS from "crypto-js";
+
 function ProductDetail() {
   const location = useLocation();
    const [qty]=useState(1)
@@ -23,6 +25,49 @@ function ProductDetail() {
     console.log(res);
     alert(res?.message);
   };
+  
+
+const buyNow = () => {
+  const totalPrice = qty;
+  const transaction_uuid = state?._id;
+
+  const Message = `total_amount=${totalPrice},transaction_uuid=${transaction_uuid},product_code=EPAYTEST`;
+  const hash = CryptoJS.HmacSHA256(Message, "8gBm/:&EnhH.1/q");
+  const signature = CryptoJS.enc.Base64.stringify(hash);
+
+  // Create form dynamically
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = "https://rc-epay.esewa.com.np/api/epay/main/v2/form";
+
+  const fields = {
+    amount: totalPrice,
+    tax_amount: 0,
+    total_amount: totalPrice,
+    transaction_uuid,
+    product_code: "EPAYTEST",
+    product_service_charge: 0,
+    product_delivery_charge: 0,
+    success_url: "http://localhost:9000/api/order/payment",
+    failure_url: "http://localhost:5173/fail",
+    signed_field_names: "total_amount,transaction_uuid,product_code",
+    signature
+  };
+
+  Object.entries(fields).forEach(([name, value]) => {
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = name;
+    input.value = value;
+    form.appendChild(input);
+  });
+
+  document.body.appendChild(form);
+  form.submit();
+};
+
+
+
   return (
     <div className=" p-1 ">
       <div className=" flex w-[90%]  m-auto bg-white  p-2 mt-10  ">
@@ -49,13 +94,13 @@ function ProductDetail() {
           <p>Rs.{state.sellingPrice}</p>
 
           <div className="space-x-3">
-            <button
-             className="bg-amber-500 text-white font-bold rounded-2xl hover:bg-amber-600 transition w-50 p-3"
-               onClick={()=>{
-              Navigate('/payment', { state:{ order:{ totalAmount: qty * state.costPrice } }})
-            }}>
-              Buy Now
-              </button>
+           <button
+            className="bg-amber-500 text-white font-bold rounded-2xl hover:bg-amber-600 transition w-50 p-3"
+            onClick={buyNow}
+          >
+            Buy Now
+          </button>
+
             <button
               className="w-50 p-3 bg-red-500 text-amber-50 font-bold rounded-2xl hover:bg-red-600 transition"
               onClick={() => {

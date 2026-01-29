@@ -2,12 +2,13 @@ import { useCart } from "../../hooks/useCart";
 import fetchData from "../../api/apiClient";
 import { NavLink, useNavigate } from "react-router-dom";
 import cartimg from "../../assets/cart/cartimg.png"
+import { useState } from "react";
+
 function Cart() {
   const { data, isLoading, isError, refetch } = useCart();
   const navigate = useNavigate();
-
-  /* ================= CART ACTIONS ================= */
-
+  const [shippingAddress, setShippingAddress] = useState("");
+  const [addressError, setAddressError] = useState("");
   const incrementQty = async (productId) => {
     try {
       await fetchData("/api/cart/update", {
@@ -16,7 +17,7 @@ function Cart() {
         credentials: "include",
         body: JSON.stringify({
           productId,
-          change: 1, // +1
+          change: 1, 
         }),
       });
       refetch();
@@ -33,7 +34,7 @@ function Cart() {
         credentials: "include",
         body: JSON.stringify({
           productId,
-          change: -1, // -1
+          change: -1, 
         }),
       });
       refetch();
@@ -56,9 +57,20 @@ function Cart() {
     }
   };
 
-  /* ================= ORDER ================= */
+  /*ORDER*/
 
   const orderNow = async () => {
+    // Validate shipping address
+    if (!shippingAddress.trim()) {
+      setAddressError("Shipping address is required");
+      return;
+    }
+
+    if (shippingAddress.trim().length < 5) {
+      setAddressError("Please enter a valid shipping address");
+      return;
+    }
+
     try {
       const res = await fetchData("/api/order/checkout", {
         method: "POST",
@@ -66,7 +78,7 @@ function Cart() {
         credentials: "include",
         body: JSON.stringify({
           paymentMethods: "e-sewa",
-          shippingAddress: "KTM",
+          shippingAddress: shippingAddress,
         }),
       });
 
@@ -150,8 +162,29 @@ function Cart() {
           </div>
 
 
-          <div className="bg-white p-4 w-96 h-80 space-y-6">
+          <div className="bg-white p-4 w-96 space-y-6">
             <h1 className="text-2xl">Order Summary</h1>
+
+            <div>
+              <label className="block text-gray-700 font-semibold mb-2">
+                Shipping Address <span className="text-red-500">*</span>
+              </label>
+              <textarea
+                value={shippingAddress}
+                onChange={(e) => {
+                  setShippingAddress(e.target.value);
+                  setAddressError("");
+                }}
+                className={`w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none ${
+                  addressError ? "border-red-500 bg-red-50" : "border-gray-300"
+                }`}
+                placeholder="Enter your complete shipping address (e.g., Kathmandu, Street, House No.)"
+                rows="3"
+              />
+              {addressError && (
+                <p className="text-red-500 text-sm mt-1">{addressError}</p>
+              )}
+            </div>
 
             <div className="flex justify-between">
               <span>Subtotal ({totalItems} items)</span>
@@ -160,17 +193,17 @@ function Cart() {
 
             <div className="flex justify-between">
               <span>Shipping</span>
-              <span>Rs.10</span>
+              <span>Rs.100</span>
             </div>
 
             <div className="flex justify-between font-bold">
               <span>Total</span>
-              <span>Rs.{totalPrice + 10}</span>
+              <span>Rs.{totalPrice + 100}</span>
             </div>
 
             <button
               onClick={orderNow}
-              className="bg-orange-600 w-full p-3 text-white"
+              className="bg-orange-600 w-full p-3 text-white hover:bg-orange-700 transition"
             >
               Order
             </button>

@@ -41,6 +41,7 @@ function ListOrder() {
                 <th className="py-2 px-4 border-b text-left">User</th>
                 <th className="py-2 px-4 border-b text-left">Payment Method</th>
                 <th className="py-2 px-4 border-b text-left">Payment Status</th>
+                <th className="py-2 px-4 border-b text-left">Delivery Status</th>
                 <th className="py-2 px-4 border-b text-left">Total Amount</th>
                 <th className="py-2 px-4 border-b text-left">Shipping Address</th>
                 <th className="py-2 px-4 border-b text-left">Items</th>
@@ -59,6 +60,17 @@ function ListOrder() {
                   </td>
                   <td className="py-2 px-4 border-b">{order.paymentMethods}</td>
                   <td className="py-2 px-4 border-b">{order.paymentStatus}</td>
+                  <td className="py-2 px-4 border-b">
+                    {order.paymentStatus?.toLowerCase() === "completed" || order.paymentStatus === "COMPLETE" ? (
+                      <span className="bg-green-200 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">
+                        Delivered
+                      </span>
+                    ) : (
+                      <span className="bg-yellow-200 text-yellow-800 px-3 py-1 rounded-full text-sm font-semibold">
+                        Pending
+                      </span>
+                    )}
+                  </td>
                   <td className="py-2 px-4 border-b">{order.totalAmount}</td>
                   <td className="py-2 px-4 border-b">{order.shippingAddress}</td>
                   <td className="py-2 px-4 border-b">

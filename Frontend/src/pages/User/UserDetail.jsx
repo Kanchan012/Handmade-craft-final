@@ -40,7 +40,7 @@ function UserDetail() {
       <div className="flex flex-col items-center">
         {user.image ? (
           <img
-            src="https://d2gwgwt9a7yxle.cloudfront.net/what_is_user_id_in_net_banking_mobile_871b681e52.jpg"
+            src="https://file.aiquickdraw.com/imgcompressed/img/compressed_fd416ceab31a0ff606e78f5cd234beb8.webp"
             alt={user.name}
             className="w-32 h-32 rounded-full mb-4"
           />

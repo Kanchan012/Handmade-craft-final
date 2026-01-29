@@ -79,12 +79,12 @@ function Chat() {
   // 🔹 Send message
 
   return (
-    <div className="p-4 max-w-lg mx-auto">
+    <div className="p-20   max-w-lvh mx-auto">
       <h2 className="text-lg font-semibold mb-3">
         Chat with {admin?.name || "Admin"}
       </h2>
 
-      <div className="  overflow-y-auto bg-white border-red-600 p-3 rounded">
+      <div className="  overflow-y-auto bg-white border-red-600 p-8 rounded-t-2xl">
         {messages?.map((m, i) => {
           const isMe = m?.senderId?._id == userId;
           return (
@@ -105,7 +105,7 @@ function Chat() {
         <div ref={bottomRef} />
       </div>
 
-      <div className="mt-3 flex gap-2">
+      <div className="bg-white p-8 rounded-b-2xl flex gap-2">
         <input
           value={message}
           onChange={(e) => setMessage(e.target.value)}

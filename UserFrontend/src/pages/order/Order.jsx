@@ -7,16 +7,13 @@ function Order() {
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
-  // orderDetail
-
   const fetchOrder = async () => {
     try {
       const res = await fetchData(`/api/order/getOrderById`, {
         method: "GET",
-        credentials: "include", // 🍪 IMPORTANT
-      }); // GET single order
-      setOrder(res.order); // assuming res.order contains the order object
+        credentials: "include",
+      }); 
+      setOrder(res.order); 
     } catch (err) {
       setError(err?.data?.message || "Failed to fetch order");
     } finally {
@@ -34,7 +31,7 @@ function Order() {
   if (!order) return <p className="text-center mt-5">Order not found.</p>;
 
   return (
-    <div className="p-6 max-w-4xl mx-auto bg-white rounded-lg shadow-md mt-5">
+    <div className="p-6 max-w-4xl mx-auto bg-white rounded-lg shadow-md ">
       <button
         className="mb-4 text-blue-600 hover:underline"
         onClick={() => navigate(-1)}
