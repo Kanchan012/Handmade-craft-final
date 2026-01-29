@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { IoMenu } from "react-icons/io5";
 import { CiSearch } from "react-icons/ci";
 import { IoIosNotifications } from "react-icons/io";
@@ -8,11 +8,13 @@ import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { AuthContext } from "../../context/AuthProvider";
 
 function Header() {
+  const navigate = useNavigate();
   const { user, setUser, setIsLoading, setIsError, isLoading, isError } =
     useContext(AuthContext);
   const { setIsMenuToggle, isMenuToggle } = useContext(MenuContext);
 
-  const [open, setOpen] = useState(false); // ✅ NEW
+  const [open, setOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const logout = async () => {
     try {
@@ -33,6 +35,13 @@ function Header() {
     }
   };
 
+  const handleSearch = (e) => {
+    if (e.key === "Enter" && searchQuery.trim()) {
+      navigate(`/product/productList?search=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery("");
+    }
+  };
+
   return (
     <div className="shadow-sm ml-0.5 shadow-gray-300 p-4 flex items-center justify-between gap-5">
       {/* LEFT */}
@@ -48,9 +57,12 @@ function Header() {
         <label className="flex gap-1 border items-center rounded-2xl p-1">
           <CiSearch size={25} />
           <input
-            placeholder="Search......"
+            placeholder="Search products..."
             className="outline-none rounded-2xl pl-2 p-1"
             type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyPress={handleSearch}
           />
         </label>
       </div>

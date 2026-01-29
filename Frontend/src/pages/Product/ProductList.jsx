@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { apiClient } from "../../api/apiClient";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function ProductList() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { search } = useLocation();
+
+  // Get search query from URL parameters
+  const searchParams = new URLSearchParams(search);
+  const searchQuery = searchParams.get("search");
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -49,6 +54,17 @@ function ProductList() {
     fetchProducts();
   }, []);
 
+  // Filter products based on search query
+  let filteredProducts = products;
+  if (searchQuery) {
+    filteredProducts = products.filter((p) =>
+      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (p.description && p.description.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
+  }
+
   if (loading)
     return (
       <div className="flex justify-center items-center h-screen">
@@ -70,10 +86,28 @@ function ProductList() {
       </div>
     );
 
+  if (filteredProducts.length === 0 && searchQuery)
+    return (
+      <div className="flex flex-col items-center justify-center h-screen gap-4">
+        <p className="text-xl font-semibold text-gray-700">
+          No related products
+        </p>
+        <p className="text-gray-500 text-center max-w-md">
+          We couldn't find any products matching "{searchQuery}". Try a different search term.
+        </p>
+        <button
+          onClick={() => navigate("/product/productList")}
+          className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+        >
+          View All Products
+        </button>
+      </div>
+    );
+
   return (
     <div className="max-w-6xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-6">
       <h2 className="text-xl font-bold mb-6 text-gray-700">
-        📦 Product List
+        {searchQuery ? `Search Results for "${searchQuery}"` : "📦 Product List"}
       </h2>
 
       <table className="w-full border-collapse">
@@ -92,7 +126,7 @@ function ProductList() {
         </thead>
 
         <tbody>
-          {products.map((p, index) => (
+          {filteredProducts.map((p, index) => (
             <tr key={p._id} className="hover:bg-gray-50 text-center">
               <td className="border p-2">{index + 1}</td>
               <td className="border p-2">

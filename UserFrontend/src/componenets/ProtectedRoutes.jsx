@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { AuthContext } from "../../context/AuthProvider";
+import { AuthContext } from "../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
 function ProtectedRoutes({ children }) {
@@ -12,7 +12,7 @@ function ProtectedRoutes({ children }) {
       return;
     }
     // 2️⃣ Not logged in → redirect to login
-    if (!user) {
+    if (!user?.user) {
       navigate('/login');
     }
   }, [user, isLoading, navigate]);
@@ -20,14 +20,14 @@ function ProtectedRoutes({ children }) {
   // 3️⃣ Show loading state while checking auth
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex items-center justify-center min-h-[500px]">
         <div className="text-xl font-semibold text-gray-700">Loading...</div>
       </div>
     );
   }
 
   // 4️⃣ Not logged in - don't render children (will redirect via useEffect)
-  if (!user) {
+  if (!user?.user) {
     return null;
   }
 

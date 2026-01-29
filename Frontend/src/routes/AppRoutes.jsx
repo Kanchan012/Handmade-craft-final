@@ -36,35 +36,36 @@ function AppRoutes() {
           }
         />
         {/* Product */}
-        <Route path="/product/productList" element={<ProductList />} />
-        <Route path="/product/productCreate" element={<ProductCreate />} />
-        <Route path="/product/edit/:id" element={<EditProduct />} />
+        <Route path="/product/productList" element={<ProtectedRoutes><ProductList /></ProtectedRoutes>} />
+        <Route path="/product/productCreate" element={<ProtectedRoutes><ProductCreate /></ProtectedRoutes>} />
+        <Route path="/product/edit/:id" element={<ProtectedRoutes><EditProduct /></ProtectedRoutes>} />
 
         {/* Order */}
-        <Route path="/order" element={<Order />} />
-        <Route path="/order/editOrder" element={<EditOrder />} />
-        <Route path="/order/listOrder" element={<ListOrder />} />
-        <Route path="/order/createOrder" element={<CreateOrder />} />
-        <Route path="/order/orderDetail/:id" element={<OrderDetail />} />
+        <Route path="/order" element={<ProtectedRoutes><Order /></ProtectedRoutes>} />
+        <Route path="/order/editOrder" element={<ProtectedRoutes><EditOrder /></ProtectedRoutes>} />
+        <Route path="/order/listOrder" element={<ProtectedRoutes><ListOrder /></ProtectedRoutes>} />
+        <Route path="/order/createOrder" element={<ProtectedRoutes><CreateOrder /></ProtectedRoutes>} />
+        <Route path="/order/orderDetail/:id" element={<ProtectedRoutes><OrderDetail /></ProtectedRoutes>} />
         {/* Users */}
-        <Route path="/user" element={<User />} />
-        <Route path="/user/editUser" element={<EditUser />} />
-        <Route path="/user/createUser" element={<CreateUser />} />
-        <Route path="/user/listUser" element={<ListUser />} />
-        <Route path="/user/userDetail/:id" element={<UserDetail />} />
+        <Route path="/user" element={<ProtectedRoutes><User /></ProtectedRoutes>} />
+        <Route path="/user/editUser" element={<ProtectedRoutes><EditUser /></ProtectedRoutes>} />
+        <Route path="/user/createUser" element={<ProtectedRoutes><CreateUser /></ProtectedRoutes>} />
+        <Route path="/user/listUser" element={<ProtectedRoutes><ListUser /></ProtectedRoutes>} />
+        <Route path="/user/userDetail/:id" element={<ProtectedRoutes><UserDetail /></ProtectedRoutes>} />
         {/* Chat */}
-        <Route path="/chat" element={<Chat />} />
+        <Route path="/chat" element={<ProtectedRoutes><Chat /></ProtectedRoutes>} />
         {/* profile */}
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile" element={<ProtectedRoutes><Profile /></ProtectedRoutes>} />
         {/* Notification */}
-        <Route path="/notification" element={<Notification />} />
+        <Route path="/notification" element={<ProtectedRoutes><Notification /></ProtectedRoutes>} />
 
         {/* ManageLogo */}
+        <Route path="/manageLogo" element={<ProtectedRoutes><ManageLogo /></ProtectedRoutes>} />
+        <Route path="/manageSliderImage" element={<ProtectedRoutes><ManageSliderImage /></ProtectedRoutes>} />
 
-        <Route path="/manageLogo" element={<ManageLogo />} />
+        {/* Public Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/manageSliderImage" element={<ManageSliderImage />} />
       </Routes>
     </div>
   );
