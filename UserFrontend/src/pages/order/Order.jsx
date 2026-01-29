@@ -58,8 +58,7 @@ function Order() {
                   </p>
                   <p>
                     <span className="font-semibold">Payment Status:</span>{" "}
-                    <span  className="  font-bold text-green-500" >                      {item?.paymentStatus}
- </span>
+                    <span  className="  font-bold text-green-500" >{item?.paymentStatus}</span>
                   </p>
                   <p>
                     <span className="font-semibold">Total Amount:</span>{" "}

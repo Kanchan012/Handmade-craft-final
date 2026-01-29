@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
 import { useContext, useState } from "react";
@@ -8,13 +8,22 @@ import { apiClient } from "../../../Frontend/src/api/apiClient";
 import Logo from "../assets/Logo.png";
 
 function Header() {
+  const navigate = useNavigate();
   const { isLoading, user, setUser, setIsError, setIsLoading } =
     useContext(AuthContext);
     const [showDropDown, setShowDropDown] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
 
     const handleToggleDropdown = () => {
       setShowDropDown((prev) => !prev);
     }
+
+  const handleSearch = (e) => {
+    if (e.key === "Enter" && searchQuery.trim()) {
+      navigate(`/product?search=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery("");
+    }
+  };
 
   const logout = async () => {
     try {
@@ -83,9 +92,19 @@ function Header() {
             <input
               type="text"
               placeholder="Search for anything"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyPress={handleSearch}
               className="border-none outline-none text-[#585757] text-sm px-10 h-6 rounded-full"
             />
-            <FaSearch className="text-black size-5" />
+            <button onClick={() => {
+              if (searchQuery.trim()) {
+                navigate(`/product?search=${encodeURIComponent(searchQuery.trim())}`);
+                setSearchQuery("");
+              }
+            }} className="cursor-pointer">
+              <FaSearch className="text-black size-5" />
+            </button>
           </div>
 
           {/* Cart */}
